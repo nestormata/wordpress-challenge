@@ -1,0 +1,23 @@
+{
+    "name": "nestormata/wordpress-challenge",
+    "description": "Challenge WP plugin for Inpsyde",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Nestor Mata Cuthbert",
+            "email": "nestor.mata@gmail.com"
+        }
+    ],
+    "require": {
+        "mustache/mustache": "^2.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "Challenge\\": "src/"
+        }
+    },
+    "require-dev": {
+        "brain/monkey": "2.*",
+        "phpunit/phpunit": "^10.2"
+    }
+}

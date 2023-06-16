@@ -1,0 +1,28 @@
+<div class="wrap">
+    <h1>WordPress Challenge</h1>
+    {{# message }}
+        <div class="notice notice-success is-dismissible">
+            <p>{{ message }}</p>
+        </div>
+    {{/ message}}
+    {{# error }}
+        <div class="notice notice-error is-dismissible">
+            <p>{{ error }}</p>
+        </div>
+    {{/ error}}
+    <p>This is the configuration page for the WordPress challenge.</p>
+
+    <form method="post" action="{{ adminUrl }}">
+        <input type="hidden" name="action" value="challenge_tools">
+        {{& nounceField }}
+
+        <h2>Page URL</h2>
+        <p>Enter the slug for the page you want to see the users page show up.</p>
+        <div class="sub-url-field">
+            <span>{{ baseUrl }}/</span>
+            <input type="text" name="users_slug" value="{{ slug }}" />
+        </div>
+
+        {{& submitButton }}
+    </form>
+</div>
