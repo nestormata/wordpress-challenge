@@ -82,13 +82,9 @@ class AdminSettingsManager
     public function saveSettingsAdmin(): void
     {
         // Verify the nonce for security.
-        if (
-            isset($_POST['challenge_tools_nonce'])
-            && wp_verify_nonce($_POST['challenge_tools_nonce'], 'challenge_tools_nonce')
-            && isset($_POST['users_slug'])
-        ) {
+        if ($this->isSlugProvidedAndNounceValid()) {
             // Sanitize and save the entered value.
-            $usersSlug = sanitize_text_field($_POST['users_slug']);
+            $usersSlug = sanitize_text_field(wp_unslash($_POST['users_slug'] ?? ''));
             if (0 === strlen($usersSlug)) {
                 wp_safe_redirect(admin_url('tools.php?page=challenge&error=Please enter a slug'));
                 exit;
@@ -98,5 +94,15 @@ class AdminSettingsManager
             wp_safe_redirect(admin_url('tools.php?page=challenge&message=Data saved'));
             exit;
         }
+    }
+
+    private function isSlugProvidedAndNounceValid(): bool
+    {
+        if (!isset($_POST['challenge_tools_nonce'])) {
+            return false;
+        }
+        $nounce = sanitize_text_field(wp_unslash($_POST['challenge_tools_nonce']));
+        return wp_verify_nonce($nounce, 'challenge_tools_nonce')
+            && isset($_POST['users_slug']);
     }
 }
