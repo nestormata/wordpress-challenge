@@ -52,18 +52,21 @@ class AdminSettingsManager
      */
     public function showSettingsAdminPage(): void
     {
+        // Create nounce hidden field
         $nounceField = wp_nonce_field(
             'challenge_tools_nonce',
             'challenge_tools_nonce',
             true,
             false
         );
+        // Gather data for the template
         $slug = get_option('users_slug', 'users');
         $submitButton = get_submit_button('Save');
         $adminUrl = admin_url('admin-post.php');
         $baseUrl = get_home_url();
         $message = sanitize_text_field(wp_unslash($_REQUEST['message'] ?? ''));
         $error = sanitize_text_field(wp_unslash($_REQUEST['error'] ?? ''));
+        // Render the template and pass the data
         $engine = new TemplateEngine($this->plugin->pluginDir());
         echo $engine->render('AdminToolsPage', compact(
             'nounceField',
@@ -83,15 +86,21 @@ class AdminSettingsManager
     {
         // Verify the nonce for security.
         if ($this->isSlugProvidedAndNounceValid()) {
-            // Sanitize and save the entered value.
-            $usersSlug = sanitize_text_field(wp_unslash($_POST['users_slug'] ?? ''));
+            // Sanitize and make sure only letters, numbers or - or _ are left.
+            $usersSlug = preg_replace(
+                '/[^a-z0-9_-]+/', '', strtolower($_POST['users_slug'] ?? '')
+            );
+            // If no slug given return error and don't save
             if (0 === strlen($usersSlug)) {
-                wp_safe_redirect(admin_url('tools.php?page=challenge&error=Please enter a slug'));
+                $message = __('Please enter a slug');
+                wp_safe_redirect(admin_url('tools.php?page=challenge&error=' . $message));
                 exit;
             }
+            // Save the new slug
             update_option('users_slug', $usersSlug);
             flush_rewrite_rules();
-            wp_safe_redirect(admin_url('tools.php?page=challenge&message=Data saved'));
+            $message = __('Data saved');
+            wp_safe_redirect(admin_url('tools.php?page=challenge&message=' . $message));
             exit;
         }
     }

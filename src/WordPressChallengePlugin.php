@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Challenge;
 
 use Challenge\Managers\AdminSettingsManager;
-use Challenge\Managers\UsersManager;
+use Challenge\Managers\UsersPageManager;
 
 /**
  * The plugin's main class that registers the actions and other requirements for
@@ -15,7 +15,7 @@ class WordPressChallengePlugin
 {
     private string $pluginDir;
     private AdminSettingsManager $adminSettingsManager;
-    private UsersManager $usersManager;
+    private UsersPageManager $usersPageManager;
 
     // Constructor.
     public function __construct(string $pluginDir)
@@ -23,7 +23,7 @@ class WordPressChallengePlugin
         // FIXME: Wiring the directory for the symlink in dev, back to the variable when done
         $this->pluginDir = '/var/www/html/wp-content/plugins/wordpress-challenge';//$pluginDir;
         $this->adminSettingsManager = new AdminSettingsManager($this);
-        $this->usersManager = new UsersManager($this);
+        $this->usersPageManager = new UsersPageManager($this);
         $this->registerFiltersAndActions();
     }
 

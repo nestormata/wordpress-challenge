@@ -16,8 +16,16 @@
             "Challenge\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require-dev": {
         "brain/monkey": "2.*",
-        "phpunit/phpunit": "^10.2"
+        "phpunit/phpunit": "^9.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests"
     }
 }

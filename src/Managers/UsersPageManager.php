@@ -9,7 +9,7 @@ use Challenge\WordPressChallengePlugin;
 /**
  * Handles the Users page that we show to the users.
  */
-class UsersManager
+class UsersPageManager
 {
     private WordPressChallengePlugin $plugin;
 
@@ -35,6 +35,10 @@ class UsersManager
 
     private function customRoute()
     {
+        // TODO: attempts to find a theme local template
+        $site_theme_template = locate_template(['challenge-users.php']);
+        // TODO: if no template found use our own page template
+        // Include the assets (CSS/JS)
         echo 'TEST';
     }
 }
