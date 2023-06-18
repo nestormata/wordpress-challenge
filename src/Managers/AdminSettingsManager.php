@@ -68,7 +68,9 @@ class AdminSettingsManager
         $error = sanitize_text_field(wp_unslash($_REQUEST['error'] ?? ''));
         // Render the template and pass the data
         $engine = new TemplateEngine($this->plugin->pluginDir());
-        echo $engine->render('AdminToolsPage', compact( // phpcs:ignore
+        // I disable the phpcs rule because the engine is in charge of handling the output.
+        // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $engine->render('AdminToolsPage', compact(
             'nounceField',
             'slug',
             'submitButton',
@@ -87,22 +89,26 @@ class AdminSettingsManager
         // Verify the nonce for security.
         if ($this->isSlugProvidedAndNounceValid()) {
             // Sanitize and make sure only letters, numbers or - or _ are left.
+            // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+            // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
             $usersSlug = preg_replace(
                 '/[^a-z0-9_-]+/',
                 '',
-                strtolower($_POST['users_slug'] ?? '') // phpcs:ignore
+                strtolower($_POST['users_slug'] ?? '')
             );
             // If no slug given return error and don't save
-            $message = __('Please enter a slug');
+            $message = __('Please enter a slug', 'challenge');
             $url = admin_url('tools.php?page=challenge&error=' . $message);
             if (0 !== strlen($usersSlug)) {
                 // Save the new slug
                 update_option('users_slug', $usersSlug);
                 flush_rewrite_rules();
-                $message = __('Data saved');
+                $message = __('Data saved', 'challenge');
                 $url = admin_url('tools.php?page=challenge&message=' . $message);
             }
-            wp_safe_redirect($url); // phpcs:ignore
+            // I disable the rule because I'm indeed calling die, but on testing.
+            // phpcs:disable WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit
+            wp_safe_redirect($url);
             // We don't die in testing, but we do in normal execution.
             if (!defined('UNIT_TESTING')) {
                 die;

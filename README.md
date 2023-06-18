@@ -32,6 +32,12 @@ composer require nestormata/wordpress-challenge:dev-main
 ```
 And proceed to enable the plugin in WordPress.
 
+## Compatibility
+
+The plugin was tested with PHP versions 8.0, 8.1 and 8.3 and it's working, but, the phpcs libraries have compatiblity issues with PHP equal or greater than 8.1.
+Several rules will fails because in 8.1 the `trim()` function deprecates sending a null parameter and that causes the rules to fail.
+Running in PHP 8.0 fixes the PHPCS issue.
+
 ## Usage
 
 Make sure the plugin is activated and the pretty URL's are enabled and working in your WordPress site.  

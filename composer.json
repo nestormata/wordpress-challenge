@@ -19,14 +19,21 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Challenge\\Tests\\": "tests/"
         }
     },
     "require-dev": {
         "brain/monkey": "2.*",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.0",
+        "inpsyde/php-coding-standards": "^1.0"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit tests"
+        "test": "vendor/bin/phpunit tests",
+        "check": "vendor/bin/phpcs"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

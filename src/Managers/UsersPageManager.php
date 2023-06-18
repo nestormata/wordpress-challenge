@@ -39,7 +39,9 @@ class UsersPageManager
     {
         // We convert the script tag to module type so we can load the App component.
         if ('challenge-users' === $handle) {
-            $tag = '<script type="module" src="' // phpcs:ignore
+            // I disable the rule because it was enqueued, I'm adding the type module.
+            // phpcs:disable WordPress.WP.EnqueuedResources.NonEnqueuedScript
+            $tag = '<script type="module" src="'
                 . esc_url($src)
                 . '" id="' . $handle . '-js"></script>'
                 . PHP_EOL;
@@ -88,7 +90,9 @@ class UsersPageManager
                 ob_end_clean();
                 return $content;
             };
-            echo $render($data); // phpcs:ignore
+            // I disable the rule because the I'm outputing a template.
+            // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo $render($data);
             return;
         }
         // If no custom template found use our own page template and styles
@@ -101,7 +105,9 @@ class UsersPageManager
         get_header();
         // Render the template and pass the data
         $engine = new TemplateEngine($this->plugin->pluginDir());
-        echo $engine->render('UsersPage', $data); // phpcs:ignore
+        // I disable the rule because the template engine is escaping output.
+        // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $engine->render('UsersPage', $data);
         get_footer();
     }
 }

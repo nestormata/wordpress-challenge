@@ -2,43 +2,66 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace Challenge\Tests;
 
 use Brain\Monkey\Functions;
 use Challenge\WordPressChallengePlugin;
 
 class WordPressChallengePluginTest extends BaseTestCase
 {
-
-    public function testQueryVarsFilterRegistered()
+    private function initializePlugin(): WordPressChallengePlugin
     {
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
-        $this->assertNotFalse(has_filter('query_vars', 'Challenge\WordPressChallengePlugin->registerQueryVars()'));
+        return new WordPressChallengePlugin(
+            __DIR__ . '/..',
+            'https://localhost/wp-content/plugins/wordpress-challenge'
+        );
     }
 
-    public function testInitActionRegistered()
+    public function testQueryVarsFilterRegistered(): void
     {
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
-        $this->assertNotFalse(has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()'));
+        $this->initializePlugin();
+        $this->assertNotFalse(
+            has_filter('query_vars', 'Challenge\WordPressChallengePlugin->registerQueryVars()')
+        );
     }
 
-    public function testReWriteWithDefaultValue()
+    public function testInitActionRegistered(): void
     {
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
-        $this->assertNotFalse(has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()'));
+        $this->initializePlugin();
+        $this->assertNotFalse(
+            has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()')
+        );
+    }
 
-        Functions\when('get_option')->returnArg(2);
-        Functions\expect('add_rewrite_rule')->once()->with('^users/?$', 'index.php?custom_page=1', 'top');
+    public function testReWriteWithDefaultValue(): void
+    {
+        $plugin = $this->initializePlugin();
+        $this->assertNotFalse(
+            has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()')
+        );
+
+        Functions\when('get_option')
+            ->returnArg(2);
+        Functions\expect('add_rewrite_rule')
+            ->once()
+            ->with('^users/?$', 'index.php?custom_page=1', 'top');
         $plugin->registerCustomRoute();
-        $this->assertNotFalse(has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()'));
+        $this->assertNotFalse(
+            has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()')
+        );
     }
 
-    public function testReWriteWithCustomValue()
+    public function testReWriteWithCustomValue(): void
     {
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
-        Functions\when('get_option')->justReturn('custom-value');
-        Functions\expect('add_rewrite_rule')->once()->with('^custom-value/?$', 'index.php?custom_page=1', 'top');
+        $plugin = $this->initializePlugin();
+        Functions\when('get_option')
+            ->justReturn('custom-value');
+        Functions\expect('add_rewrite_rule')
+            ->once()
+            ->with('^custom-value/?$', 'index.php?custom_page=1', 'top');
         $plugin->registerCustomRoute();
-        $this->assertNotFalse(has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()'));
+        $this->assertNotFalse(
+            has_action('init', 'Challenge\WordPressChallengePlugin->registerCustomRoute()')
+        );
     }
 }
