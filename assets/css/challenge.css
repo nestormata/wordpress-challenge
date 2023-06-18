@@ -1,0 +1,114 @@
+
+.challenge-app-container {
+    --table-header-bg-color: #146152;
+    --table-header-color: #FFFFFF;
+    --table-row-bg-color: #44803F;
+    --table-row-color: #FFFFFF;
+    --table-alternate-bg-color: #B4CF66;
+    --table-alternate-color: #333333;
+    --table-border-color: #222222;
+    --table-active-bg-color: #FF5A33;
+    --table-active-color: #FFFFFF;
+    --card-information-bg-color: #FFEC5C;
+    --card-company-bg-color: #B4cf66;
+}
+
+.challenge-app-container table, .challenge-app-container h2 {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.challenge-app-data-container {
+    display: flex;
+    flex-direction: column;
+}
+.challenge-app-data-container .challenge-user-details {
+    background-color: var(--card-information-bg-color);
+    padding: 1em;
+    margin: 0;
+    min-width: 50%;
+}
+.challenge-app-data-container h3 {
+    font-size: 180%;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+.challenge-app-data-container .challenge-company-details {
+    background-color: var(--card-company-bg-color);
+    padding: 0.5em;
+    margin: 0 -1em 1em;
+}
+.challenge-app-data-container .challenge-company-details_name {
+    font-weight: bold;
+    font-size: 120%;
+}
+.challenge-app-data-container .challenge-company-details_bs {
+    font-size: 90%;
+    font-style: italic;
+}
+.challenge-app-data-container .challenge-user-details label {
+    font-weight: bold;
+}
+.challenge-app-container table thead tr {
+    background-color: var(--table-header-bg-color);
+    color: var(--table-header-color);
+    border-color: var(--table-border-color);
+}
+.challenge-app-container table thead tr th {
+    border-color: var(--table-border-color);
+}
+.challenge-app-container table tbody tr td {
+    background-color: var(--table-row-bg-color);
+    color: var(--table-row-color);
+    border-color: var(--table-border-color);
+}
+.challenge-app-container table tbody tr td:first-child {
+    text-align: center;
+}
+.challenge-app-container table tbody tr td a {
+    color: var(--table-row-color);
+    cursor: pointer;
+}
+.challenge-app-container table tbody tr td a:hover {
+    text-decoration: underline;
+    font-weight: 600;
+}
+.challenge-app-container table tbody tr:nth-of-type(odd) td {
+    background-color: var(--table-alternate-bg-color);
+    color: var(--table-alternate-color);
+}
+.challenge-app-container table tbody tr:nth-of-type(odd) td a {
+    color: var(--table-alternate-color);
+}
+.challenge-app-container table tbody tr.active td {
+    background-color: var(--table-active-bg-color);
+    color: var(--table-active-color);
+}
+.challenge-app-container table tbody tr.active td a {
+    color: var(--table-active-color);
+}
+
+@media (min-width: 768px) {
+    .challenge-app-data-container {
+        flex-direction: row;
+    }
+    .challenge-app-container table, .challenge-app-container h2 {
+        margin: initial;
+    }
+    .challenge-app-data-container .challenge-user-details {
+        border-radius: 1em;
+        margin: 0 1em;
+    }
+}
+@media (min-width: 1024px) {
+    .challenge-app-container h2 {
+        max-width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .challenge-app-data-container {
+        justify-content: center;
+    }
+    .challenge-app-data-container .challenge-user-details {
+        min-width: 600px;
+    }
+}

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Challenge\Managers;
 
@@ -66,7 +68,7 @@ class AdminSettingsManager
         $error = sanitize_text_field(wp_unslash($_REQUEST['error'] ?? ''));
         // Render the template and pass the data
         $engine = new TemplateEngine($this->plugin->pluginDir());
-        echo $engine->render('AdminToolsPage', compact(
+        echo $engine->render('AdminToolsPage', compact( // phpcs:ignore
             'nounceField',
             'slug',
             'submitButton',
@@ -86,21 +88,25 @@ class AdminSettingsManager
         if ($this->isSlugProvidedAndNounceValid()) {
             // Sanitize and make sure only letters, numbers or - or _ are left.
             $usersSlug = preg_replace(
-                '/[^a-z0-9_-]+/', '', strtolower($_POST['users_slug'] ?? '')
+                '/[^a-z0-9_-]+/',
+                '',
+                strtolower($_POST['users_slug'] ?? '') // phpcs:ignore
             );
             // If no slug given return error and don't save
-            if (0 === strlen($usersSlug)) {
-                $message = __('Please enter a slug');
-                wp_safe_redirect(admin_url('tools.php?page=challenge&error=' . $message));
-                wp_die();
-                return;
+            $message = __('Please enter a slug');
+            $url = admin_url('tools.php?page=challenge&error=' . $message);
+            if (0 !== strlen($usersSlug)) {
+                // Save the new slug
+                update_option('users_slug', $usersSlug);
+                flush_rewrite_rules();
+                $message = __('Data saved');
+                $url = admin_url('tools.php?page=challenge&message=' . $message);
             }
-            // Save the new slug
-            update_option('users_slug', $usersSlug);
-            flush_rewrite_rules();
-            $message = __('Data saved');
-            wp_safe_redirect(admin_url('tools.php?page=challenge&message=' . $message));
-            wp_die();
+            wp_safe_redirect($url); // phpcs:ignore
+            // We don't die in testing, but we do in normal execution.
+            if (!defined('UNIT_TESTING')) {
+                die;
+            }
         }
     }
 

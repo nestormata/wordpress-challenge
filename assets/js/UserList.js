@@ -2,12 +2,17 @@ import { h, html, useContext } from 'https://cdn.jsdelivr.net/npm/preact-htm-sig
 import { UserRow } from './UserRow.js';
 import { AppState } from './AppState.js';
 
-export function UserList(props) {
+/**
+ * The user list component.
+ * It shows the list of users available.
+ */
+export function UserList() {
     const state = useContext(AppState);
     const users = state.users;
     const  tpl = html.bind(h);
 
-    return tpl`
+    if (users.value.length > 0) {
+        return tpl`
         <table>
             <thead>
                 <tr>
@@ -22,5 +27,9 @@ export function UserList(props) {
                 ))}
             </tbody>
         </table>
+    `;
+    }
+    return tpl`
+        <h3>Loading...</h3>
     `;
 }

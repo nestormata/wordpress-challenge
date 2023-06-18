@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Challenge;
 
@@ -12,6 +14,7 @@ use Challenge\Managers\UsersPageManager;
  */
 class WordPressChallengePlugin
 {
+    private string $version = '1.0.0';
     private string $pluginDir;
     private string $pluginUrl;
     private AdminSettingsManager $adminSettingsManager;
@@ -29,11 +32,25 @@ class WordPressChallengePlugin
         $this->registerFiltersAndActions();
     }
 
+    /**
+     * A getter for the plugin version.
+     */
+    public function version(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * A getter for the plugin directory.
+     */
     public function pluginDir(): string
     {
         return $this->pluginDir;
     }
 
+    /**
+     * A getter for the plugin URL.
+     */
     public function pluginUrl(): string
     {
         return $this->pluginUrl;

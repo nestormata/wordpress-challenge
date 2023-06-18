@@ -1,5 +1,28 @@
 # PHP Challenge
 
+## Installation
+The installation should be fairly easy with composer.
+No need to compile anything; the assets do not require any compiler like WebPack or any other.
+In order to install with composer you may need to specify the private repository in composer.json
+like this:
+
+```
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@bitbucket.org:nestormata/wordpress-challenge.git"
+        }
+    ]
+}
+```
+And then just run composer require on your WordPress site, like this:
+
+```
+composer require nestormata/wordpress-challenge:dev-main
+```
+And proceed to enable the plugin in WordPress.
+
 ## Customizations by the user
 
 ### URL slug
@@ -14,6 +37,9 @@ Example:
 ```
 <div id="challenge-app"></div>
 ```
+
+## Cache
+I've cached the AJAX requests for 1 hour using Transient cache.
 
 ## Libraries desitions
 

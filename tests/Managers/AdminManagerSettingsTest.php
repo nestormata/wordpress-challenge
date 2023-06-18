@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Managers;
 
@@ -22,14 +24,14 @@ class AdminManagerSettingsTest extends BaseTestCase
 
     public function testAdminMenuActionRegistered()
     {
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..');
+        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
         $manager = new AdminSettingsManager($plugin);
         $this->assertNotFalse(has_action('admin_menu', 'Challenge\Managers\AdminSettingsManager->registerMenu()'));
     }
 
     public function testAdminPostActionRegistered()
     {
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..');
+        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
         $manager = new AdminSettingsManager($plugin);
         $this->assertNotFalse(has_action('admin_post_challenge_tools', 'Challenge\Managers\AdminSettingsManager->saveSettingsAdmin()'));
     }
@@ -42,15 +44,15 @@ class AdminManagerSettingsTest extends BaseTestCase
         // Set up expectations
         Functions\expect('update_option')->once()->with('users_slug', 'test');
         Functions\expect('flush_rewrite_rules')->once();
-        Functions\expect('wp_safe_redirect')->once();
         $test_class = $this;
         // Set up functions
-        Functions\when('admin_url')->alias(function($url) use ($test_class) {
+        Functions\when('admin_url')->returnArg();
+        Functions\when('wp_safe_redirect')->alias(function($url) use ($test_class) {
             $test_class->assertStringContainsString('Data saved', $url);
-            return $url;
+            $test_class->assertStringContainsString('message', $url);
         });
         // Execute saving
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..');
+        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
         $manager = new AdminSettingsManager($plugin);
         $manager->saveSettingsAdmin();
     }
@@ -63,16 +65,15 @@ class AdminManagerSettingsTest extends BaseTestCase
         // Set up expectations
         Functions\expect('update_option')->once()->with('users_slug', 'test340');
         Functions\expect('flush_rewrite_rules')->once();
-        Functions\expect('wp_safe_redirect')->once();
         $test_class = $this;
         // Set up functions
-        Functions\when('admin_url')->alias(function($url) use ($test_class) {
+        Functions\when('admin_url')->returnArg();
+        Functions\when('wp_safe_redirect')->alias(function($url) use ($test_class) {
             $test_class->assertStringContainsString('Data saved', $url);
             $test_class->assertStringContainsString('message', $url);
-            return $url;
         });
         // Execute saving
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..');
+        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
         $manager = new AdminSettingsManager($plugin);
         $manager->saveSettingsAdmin();
     }
@@ -85,16 +86,15 @@ class AdminManagerSettingsTest extends BaseTestCase
         // Set up expectations
         Functions\expect('update_option')->never();
         Functions\expect('flush_rewrite_rules')->never();
-        Functions\expect('wp_safe_redirect')->once();
         $test_class = $this;
         // Set up functions
-        Functions\when('admin_url')->alias(function($url) use ($test_class) {
+        Functions\when('admin_url')->returnArg();
+        Functions\when('wp_safe_redirect')->alias(function($url) use ($test_class) {
             $test_class->assertStringContainsString('Please enter a slug', $url);
             $test_class->assertStringContainsString('error', $url);
-            return $url;
         });
         // Execute saving
-        $plugin = new WordPressChallengePlugin(__DIR__ . '/..');
+        $plugin = new WordPressChallengePlugin(__DIR__ . '/..', 'https://localhost/wp-content/plugins/wordpress-challenge');
         $manager = new AdminSettingsManager($plugin);
         $manager->saveSettingsAdmin();
     }

@@ -2,8 +2,12 @@ import { h, html, render } from 'https://cdn.jsdelivr.net/npm/preact-htm-signals
 import { App } from './App.js';
 import { AppState } from './AppState.js';
 
-const  tpl = html.bind(h);
+/**
+ * The rective app setup.
+ * This file is being loaded by WordPress.
+ */
 
+const  tpl = html.bind(h);
 render(tpl`
     <AppState.Provider >
         <${App} />

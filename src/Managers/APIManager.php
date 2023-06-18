@@ -1,6 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Challenge\Managers;
+
 use Challenge\WordPressChallengePlugin;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -14,12 +17,18 @@ class APIManager
 {
     private WordPressChallengePlugin $plugin;
 
+    /**
+     * Construct and setup.
+     */
     public function __construct(WordPressChallengePlugin $plugin)
     {
         $this->plugin = $plugin;
         $this->registerFiltersAndActions();
     }
 
+    /**
+     * Register the filters and actions required.
+     */
     private function registerFiltersAndActions()
     {
         add_action('wp_ajax_challenge_users', [$this, 'fetchUsers']);
@@ -28,18 +37,45 @@ class APIManager
         add_action('wp_ajax_nopriv_challenge_user', [$this, 'fetchUserData']);
     }
 
+    /**
+     * Fetch the list of users for the ajax request.
+     */
     public function fetchUsers(): void
     {
-        wp_send_json($this->fetchJson('users/'));
+        $transientKey = 'challenge_users';
+        // Check if cached first.
+        $stored = get_transient($transientKey);
+        if ($stored) {
+            wp_send_json(unserialize($stored));
+        }
+        // Fetch and cache.
+        $json = $this->fetchJson('users/');
+        set_transient($transientKey, serialize($json), 60 * 60); // Cache for 1 hour
+        wp_send_json($json);
     }
 
+    /**
+     * Fetch the information of a specific user for the ajax request.
+     */
     public function fetchUserData(): void
     {
         $userId = intval($_REQUEST['id'] ?? 0);
-        wp_send_json($this->fetchJson('users/' . $userId));
+        // Check if cached first.
+        $transientKey = 'challenge_user_' . $userId;
+        $stored = get_transient($transientKey);
+        if ($stored) {
+            wp_send_json(unserialize($stored));
+        }
+        // Fetch and cache.
+        $json = $this->fetchJson('users/' . $userId);
+        set_transient($transientKey, serialize($json), 60 * 60); // Cache for 1 hour
+        wp_send_json($json);
     }
 
-    protected function fetch($endpoint, $method = 'GET', $data = []): Response
+    /**
+     * Function to fetch of an endpoint from the source.
+     */
+    protected function fetch(string $endpoint, string $method = 'GET', array $data = []): Response
     {
         $client = new Client([
             'base_uri' => 'https://jsonplaceholder.typicode.com/',
@@ -49,7 +85,10 @@ class APIManager
         return $response;
     }
 
-    protected function fetchJson($endpoint, $method = 'GET', $data = []): array
+    /**
+     * Function to fetch JSON data from an endpoint of the source.
+     */
+    protected function fetchJson(string $endpoint, string $method = 'GET', array $data = []): array
     {
         $response = $this->fetch($endpoint, $method, $data);
         $body = $response->getBody()->__toString();
