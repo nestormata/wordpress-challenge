@@ -1,10 +1,9 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Challenge;
 
 use Challenge\Managers\AdminSettingsManager;
+use Challenge\Managers\APIManager;
 use Challenge\Managers\UsersPageManager;
 
 /**
@@ -14,22 +13,30 @@ use Challenge\Managers\UsersPageManager;
 class WordPressChallengePlugin
 {
     private string $pluginDir;
+    private string $pluginUrl;
     private AdminSettingsManager $adminSettingsManager;
     private UsersPageManager $usersPageManager;
+    private APIManager $apiManager;
 
     // Constructor.
-    public function __construct(string $pluginDir)
+    public function __construct(string $pluginDir, string $pluginUrl)
     {
-        // FIXME: Wiring the directory for the symlink in dev, back to the variable when done
-        $this->pluginDir = '/var/www/html/wp-content/plugins/wordpress-challenge';//$pluginDir;
+        $this->pluginDir = $pluginDir;
+        $this->pluginUrl = $pluginUrl;
         $this->adminSettingsManager = new AdminSettingsManager($this);
         $this->usersPageManager = new UsersPageManager($this);
+        $this->apiManager = new APIManager($this);
         $this->registerFiltersAndActions();
     }
 
     public function pluginDir(): string
     {
         return $this->pluginDir;
+    }
+
+    public function pluginUrl(): string
+    {
+        return $this->pluginUrl;
     }
 
     /**

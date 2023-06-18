@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Challenge\Managers;
 
@@ -94,14 +92,15 @@ class AdminSettingsManager
             if (0 === strlen($usersSlug)) {
                 $message = __('Please enter a slug');
                 wp_safe_redirect(admin_url('tools.php?page=challenge&error=' . $message));
-                exit;
+                wp_die();
+                return;
             }
             // Save the new slug
             update_option('users_slug', $usersSlug);
             flush_rewrite_rules();
             $message = __('Data saved');
             wp_safe_redirect(admin_url('tools.php?page=challenge&message=' . $message));
-            exit;
+            wp_die();
         }
     }
 

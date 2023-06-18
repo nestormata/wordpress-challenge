@@ -14,3 +14,9 @@ The page template can be overriden in the site template by create a file called 
 
 ### Mustache
 I'm usually more inclined to Twig for a site, but since this is just a plugin and in benefit to keep things small I decided to go with Mustache since it has no additional requirements, contrary to Twig, and still meets my requirement to serve as a template engine that allow me to keep things clean in templates.
+
+### Guzzle
+Guzzle is a pretty mature and well made HTTP client library, which complies with all the standards and it's also easy to use and easy to mock.
+
+### Preact
+For a reactive front end I would normally go with React or Vue.js, but, considering the size of the requirement and to avoid possible compatibility isues with versions of Node in the destination's environment, I decided to go with Preact using no build tools.

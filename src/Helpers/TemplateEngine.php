@@ -19,9 +19,9 @@ class TemplateEngine
         $this->mustache = new Mustache_Engine([
             'cache' => get_temp_dir() . 'mustache',
             'loader' => new Mustache_Loader_FilesystemLoader($baseDirectory . '/templates'),
-            'partials_loader' => new Mustache_Loader_FilesystemLoader(
-                $baseDirectory . '/templates/partials'
-            ),
+            // 'partials_loader' => new Mustache_Loader_FilesystemLoader(
+            //     $baseDirectory . '/templates/partials'
+            // ),
         ]);
     }
 

@@ -17,7 +17,10 @@ if (!defined('ABSPATH')) {
 }
 
 // Initialize the plugin.
-add_action('plugins_loaded', fn() => new WordPressChallengePlugin(__DIR__));
+add_action('plugins_loaded', fn() => new WordPressChallengePlugin(
+    __DIR__,
+    plugin_dir_url(__FILE__)
+));
 
 register_activation_hook(__FILE__, 'flush_rewrite_rules');
 register_deactivation_hook(__FILE__, 'flush_rewrite_rules');
