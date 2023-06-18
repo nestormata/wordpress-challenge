@@ -2,6 +2,7 @@
     "name": "nestormata/wordpress-challenge",
     "description": "Challenge WP plugin for Inpsyde",
     "type": "wordpress-plugin",
+    "license": "MIT",
     "authors": [
         {
             "name": "Nestor Mata Cuthbert",
