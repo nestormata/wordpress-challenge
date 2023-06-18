@@ -1,8 +1,9 @@
-import { h, html } from 'https://cdn.jsdelivr.net/npm/preact-htm-signals-standalone/dist/standalone.js';
+import { h, html, useContext } from 'https://cdn.jsdelivr.net/npm/preact-htm-signals-standalone/dist/standalone.js';
+import { AppState } from './AppState.js';
 
 export function UserDetails(props) {
-    //const currentUser = state.currentUser.value;
-    const currentUser = props.user.value;
+    const state = useContext(AppState);
+    const currentUser = state.currentUser.value;
     const  tpl = html.bind(h);
     if (currentUser) {
         return tpl`

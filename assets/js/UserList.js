@@ -1,11 +1,10 @@
-import { h, html, useContext, createContext } from 'https://cdn.jsdelivr.net/npm/preact-htm-signals-standalone/dist/standalone.js';
+import { h, html, useContext } from 'https://cdn.jsdelivr.net/npm/preact-htm-signals-standalone/dist/standalone.js';
 import { UserRow } from './UserRow.js';
-
-const AppState = createContext();
+import { AppState } from './AppState.js';
 
 export function UserList(props) {
-    const users = props.users;
-    const currentUser = props.current;
+    const state = useContext(AppState);
+    const users = state.users;
     const  tpl = html.bind(h);
 
     return tpl`
@@ -19,7 +18,7 @@ export function UserList(props) {
             </thead>
             <tbody>
                 ${users.value.map(user => (
-                    tpl`<${UserRow} key=${user.id} user="${user}" current="${currentUser}" />`
+                    tpl`<${UserRow} key=${user.id} user="${user}" />`
                 ))}
             </tbody>
         </table>

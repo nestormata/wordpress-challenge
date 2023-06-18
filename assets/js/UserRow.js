@@ -1,8 +1,10 @@
-import { h, html } from 'https://cdn.jsdelivr.net/npm/preact-htm-signals-standalone/dist/standalone.js';
+import { h, html, useContext } from 'https://cdn.jsdelivr.net/npm/preact-htm-signals-standalone/dist/standalone.js';
+import { AppState } from './AppState.js';
 
 export function UserRow(props) {
+    const state = useContext(AppState);
     const user = props.user;
-    const currentUser = props.current;
+    const currentUser = state.currentUser;
     const  tpl = html.bind(h);
 
     const setCurrentUser = () => {

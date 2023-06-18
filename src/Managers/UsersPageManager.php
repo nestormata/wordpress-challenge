@@ -21,6 +21,16 @@ class UsersPageManager
     private function registerFiltersAndActions()
     {
         add_action('template_redirect', [$this, 'listenCustomRoute']);
+        add_filter('script_loader_tag', [$this, 'convertScriptToModuleType'], 10, 3);
+    }
+
+    public function convertScriptToModuleType($tag, $handle, $src)
+    {
+        // We convert the script tag to module type so we can load the App component.
+        if ('challenge-users' === $handle) {
+            $tag = '<script type="module" src="' . esc_url($src) .'" id="' . $handle . '-js"></script>' . PHP_EOL;
+        }
+        return $tag;
     }
 
     public function listenCustomRoute(): void
@@ -34,11 +44,9 @@ class UsersPageManager
 
     private function customRoute()
     {
-        $data = [
-            'base_path' => $this->plugin->pluginUrl(),
-        ];
+        $data = [];
         // Include the assets (CSS/JS)
-        wp_enqueue_script('challenge-users', $this->plugin->pluginUrl() . 'assets/js/challenge.js');
+        wp_enqueue_script('challenge-users', $this->plugin->pluginUrl() . 'assets/js/ChallengeModule.js');
         wp_localize_script('challenge-users', 'challenge', [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('challenge-users')

@@ -9,6 +9,11 @@ This can be configured in the admin area under Tools -> Challenge.
 
 ### Template
 The page template can be overriden in the site template by create a file called `challenge-users.php`.
+In order to use a customized template, make sure that the template includes a tag with an ID of `challenge-app`.
+Example:
+```
+<div id="challenge-app"></div>
+```
 
 ## Libraries desitions
 
