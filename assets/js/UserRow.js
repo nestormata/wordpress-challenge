@@ -25,6 +25,7 @@ export function UserRow(props) {
     const loadUserData = async function (user_id) {
         const response = await fetch(challenge.ajaxurl + "?" + new URLSearchParams({
             action: "challenge_user",
+            nonce: challenge.nonce,
             id: user_id
         }), {
             method: "POST",

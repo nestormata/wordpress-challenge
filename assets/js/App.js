@@ -15,7 +15,8 @@ export function App() {
      */
     async function loadUsersData() {
         const response = await fetch(challenge.ajaxurl + "?" + new URLSearchParams({
-            action: "challenge_users"
+            action: "challenge_users",
+            nonce: challenge.nonce
         }), {
             method: "POST",
             headers: {

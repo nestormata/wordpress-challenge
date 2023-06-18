@@ -42,6 +42,14 @@ class APIManager
      */
     public function fetchUsers(): void
     {
+        if (
+            !wp_verify_nonce(
+                sanitize_text_field(wp_unslash($_REQUEST['nonce'] ?? '')),
+                'challenge-users'
+            )
+        ) {
+            die('Invalid nonce!');
+        }
         $transientKey = 'challenge_users';
         // Check if cached first.
         $stored = get_transient($transientKey);
@@ -59,6 +67,14 @@ class APIManager
      */
     public function fetchUserData(): void
     {
+        if (
+            !wp_verify_nonce(
+                sanitize_text_field(wp_unslash($_REQUEST['nonce'] ?? '')),
+                'challenge-users'
+            )
+        ) {
+            die('Invalid nonce!');
+        }
         $userId = intval($_REQUEST['id'] ?? 0);
         // Check if cached first.
         $transientKey = 'challenge_user_' . $userId;

@@ -64,6 +64,8 @@ class AdminSettingsManager
         $submitButton = get_submit_button('Save');
         $adminUrl = admin_url('admin-post.php');
         $baseUrl = get_home_url();
+        // No need to check nonce for a status message
+        // phpcs:disable WordPress.Security.NonceVerification.Recommended
         $message = sanitize_text_field(wp_unslash($_REQUEST['message'] ?? ''));
         $error = sanitize_text_field(wp_unslash($_REQUEST['error'] ?? ''));
         // Render the template and pass the data
@@ -91,6 +93,8 @@ class AdminSettingsManager
             // Sanitize and make sure only letters, numbers or - or _ are left.
             // phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
             // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            // We already checked the nonce in the previous function call.
+            // phpcs:disable WordPress.Security.NonceVerification.Missing
             $usersSlug = preg_replace(
                 '/[^a-z0-9_-]+/',
                 '',
