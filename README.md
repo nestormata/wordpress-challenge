@@ -1,4 +1,5 @@
 # PHP Challenge
+![Build Status](https://github.com/nestormata/wordpress-challenge/actions/workflows/php/badge.svg)
 
 First I would like to thank the opportunity to demostrate my skills.  
 I hope you find these challenge as per your expectations.  
@@ -47,6 +48,21 @@ For example:
 ```
 http://localhost/users/
 ```
+
+## Test and code check
+
+The tests and code check are automatically ran by github.  
+But, you can also run them with:
+
+```
+composer test
+```
+and
+
+```
+composer check
+```
+
 
 ## Customizations by the user
 
