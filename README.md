@@ -1,5 +1,5 @@
 # PHP Challenge
-![Build Status](https://github.com/nestormata/wordpress-challenge/actions/workflows/php/badge.svg)
+![Build Status](https://github.com/nestormata/wordpress-challenge/actions/workflows/php.yml/badge.svg)
 
 First I would like to thank the opportunity to demostrate my skills.  
 I hope you find these challenge as per your expectations.  
