@@ -1,13 +1,6 @@
 # PHP Challenge
 ![Build Status](https://github.com/nestormata/wordpress-challenge/actions/workflows/php.yml/badge.svg)
 
-First I would like to thank the opportunity to demostrate my skills.  
-I hope you find these challenge as per your expectations.  
-If you have any doubts, please don't hesitate to reach me.  
-~ Nestor
-
-**Note:**  
-The tests coverage is not a 100%, I created enough to demostrate the knowledge and focused in other areas, since my time available for the task is limited.
 
 ## Installation
 
